@@ -5,6 +5,7 @@ mixin storeForm(store = {})
     label(for="description")
     textarea(name="description")= store.description
     label(for="address") Address
+    #search-address
     input(type="text" id="address" name="location[address]" value=(store.location && store.location.address))
     label(for="lng") Address Lng
     input(type="text" id="lng" name="location[coordinates][0]" value=(store.location && store.location.coordinates[0]))

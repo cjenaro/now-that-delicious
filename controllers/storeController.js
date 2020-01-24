@@ -32,6 +32,7 @@ exports.updateStore = async (req, res) => {
   const store = await Store.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
     runValidators: true,
+    useFindAndModify: false,
   }).exec()
   req.flash(
     'success',
