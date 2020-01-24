@@ -8,7 +8,6 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const { promisify } = require('es6-promisify')
 const flash = require('connect-flash')
-const { check, validationResult } = require('express-validator')
 const routes = require('./routes/index')
 const helpers = require('./helpers')
 const errorHandlers = require('./handlers/errorHandlers')
@@ -30,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
 // app.use(expressValidator());
 // Switch ↕
-// app.post('/user', [
+// app.post('/register', [
 //   // username must be an email
 //   check('username').isEmail(),
 //   // password must be at least 5 chars long

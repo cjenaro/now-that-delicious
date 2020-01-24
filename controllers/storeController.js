@@ -29,7 +29,7 @@ exports.upload = multer(multerOptions).single('photo')
 exports.resize = async (req, res, next) => {
   if (!req.file) {
     next()
-    return;
+    return
   }
 
   const extension = req.file.mimetype.split('/')[1]
@@ -75,7 +75,18 @@ exports.updateStore = async (req, res) => {
 
 exports.getStoreBySlug = async (req, res) => {
   const store = await Store.findOne({ slug: req.params.slug })
-  if(!store) return next()
+  if (!store) return next()
 
   res.render('store', { title: store.name, store })
+}
+
+exports.getStoresByTag = async (req, res) => {
+  const tag = req.params.tag
+  const tagQuery = tag || { $exists: true }
+  const storesPromise = Store.find({ tags: tagQuery })
+  const tagsPromise = Store.getTagsList()
+
+  const [stores, tags] = await Promise.all([storesPromise, tagsPromise])
+
+  res.render('tags', { title: 'Tags', tags, tag, stores })
 }
