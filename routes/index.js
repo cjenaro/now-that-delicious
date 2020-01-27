@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const storeController = require('../controllers/storeController')
 const userController = require('../controllers/userController')
+const authController = require('../controllers/authController')
 const { catchErrors } = require('../handlers/errorHandlers')
 const {
   check,
@@ -14,7 +15,7 @@ const sanitizeBodyAndQuery = buildSanitizeFunction(['body', 'query'])
 router.get('/', storeController.getStores)
 router.get('/stores', catchErrors(storeController.getStores))
 
-router.get('/add', storeController.addStore)
+router.get('/add', authController.isLoggedIn ,storeController.addStore)
 router.post(
   '/add',
   storeController.upload,
@@ -35,6 +36,7 @@ router.get('/tags/', catchErrors(storeController.getStoresByTag))
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag))
 
 router.get('/login', userController.loginForm)
+router.post('/login', authController.login)
 router.get('/register', userController.registerForm)
 router.post(
   '/register',
@@ -59,10 +61,16 @@ router.post(
       .exists()
       .isLength({ min: 5 }),
     check('password-confirm', 'Passwords do not match').custom(
-      (value, { req }) => value === req.body.value
+      (value, { req }) => value === req.body.password
     ),
   ],
-  userController.validateUser
+  userController.validateUser,
+  userController.register,
+  authController.login
 )
+
+router.get('/logout', authController.logout)
+
+router.get('/account', userController.account)
 
 module.exports = router

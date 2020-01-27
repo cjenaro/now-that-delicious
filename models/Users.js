@@ -23,6 +23,11 @@ const usersSchema = new Schema({
   },
 })
 
+usersSchema.virtual('gravatar').get(function() {
+  const hash = md5(this.email)
+  return `https://gravatar.com/avatar/${hash}?s=200`
+})
+
 usersSchema.plugin(passportLocalMongoose, { usernameField: 'email' })
 usersSchema.plugin(mongodbErrorHandler)
 

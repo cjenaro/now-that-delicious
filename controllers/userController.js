@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const { check, validationResult } = require('express-validator')
+const User = mongoose.model('User')
+const { promisify } = require('es6-promisify')
 
 exports.loginForm = (req, res) => {
   res.render('login', { title: 'Login' })
@@ -12,10 +14,12 @@ exports.registerForm = (req, res) => {
 exports.validateUser = (req, res, next) => {
   const error = validationResult(req)
 
-  console.log(error)
-
-  if (error) {
-    req.flash('error', error.errors.map(err => err.msg))
+  if (error && error.errors.length) {
+    console.log('ERROR')
+    req.flash(
+      'error',
+      error.errors.map(err => err.msg)
+    )
     res.render('register', {
       title: 'Register',
       body: req.body,
@@ -25,4 +29,14 @@ exports.validateUser = (req, res, next) => {
   }
 
   next()
+}
+
+exports.register = async (req, res, next) => {
+  const user = new User({ email: req.body.email, name: req.body.name })
+  await User.register(user, req.body.password)
+  next()
+}
+
+exports.account = (req, res) => {
+  res.render('account', { title: 'Edit your account' })
 }
