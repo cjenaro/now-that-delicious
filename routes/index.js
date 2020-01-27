@@ -15,7 +15,7 @@ const sanitizeBodyAndQuery = buildSanitizeFunction(['body', 'query'])
 router.get('/', storeController.getStores)
 router.get('/stores', catchErrors(storeController.getStores))
 
-router.get('/add', authController.isLoggedIn ,storeController.addStore)
+router.get('/add', authController.isLoggedIn, storeController.addStore)
 router.post(
   '/add',
   storeController.upload,
@@ -73,5 +73,17 @@ router.get('/logout', authController.logout)
 
 router.get('/account', authController.isLoggedIn, userController.account)
 router.post('/account', catchErrors(userController.updateAccount))
+router.post('/account/forgot', catchErrors(authController.forgot))
+router.get('/account/reset/:token', catchErrors(authController.reset))
+router.post(
+  '/account/reset/:token',
+  [
+    check('password-confirm', 'Passwords do not match').custom(
+      (value, { req }) => value === req.body.password
+    ),
+  ],
+  authController.confirmedPasswords,
+  catchErrors(authController.update)
+)
 
 module.exports = router
