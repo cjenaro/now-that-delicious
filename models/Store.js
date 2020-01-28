@@ -38,6 +38,9 @@ const storeSchema = new mongoose.Schema({
     ref: 'User',
     required: 'You must supply an author'
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 })
 
 storeSchema.index({
@@ -46,6 +49,12 @@ storeSchema.index({
 })
 
 storeSchema.index({ location: '2dsphere' })
+
+storeSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'store'
+})
 
 storeSchema.pre('save', async function(next) {
   if (!this.isModified('name')) return next()
