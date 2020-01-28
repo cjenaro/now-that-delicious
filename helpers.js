@@ -15,7 +15,7 @@ exports.dump = (obj) => JSON.stringify(obj, null, 2);
 // exports.staticMap = ([lng, lat]) => `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=800x150&key=${process.env.MAP_KEY}&markers=${lat},${lng}&scale=2`;
 // ↕ 
 // Change for mapbox
-exports.staticMap = ([lat, lng]) => `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/url-https%3A%2F%2Fwww.mapbox.com%2Fimg%2Frocket.png(${lng},${lat})/${lng},${lat},9.67,0.00,0.00/800x150@2x?access_token=${process.env.MAPBOX_KEY}`
+exports.staticMap = ([lng, lat]) => `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/url-https%3A%2F%2Fwww.mapbox.com%2Fimg%2Frocket.png(${lng},${lat})/${lng},${lat},9.67,0.00,0.00/800x150@2x?access_token=${process.env.MAPBOX_KEY}`
 
 // inserting an SVG
 exports.icon = (name) => fs.readFileSync(`./public/images/icons/${name}.svg`);
