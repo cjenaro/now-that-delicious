@@ -13,11 +13,13 @@ function loadPlaces(map, lat = 43.2, lng = -79.8) {
           description: `
             <div class="popup">
               <a href="/store/${place.slug}">
-                <img src="/uploads/${place.photo || 'store.png'}" alt="${place.name}"/>
+                <img src="/uploads/${place.photo || 'store.png'}" alt="${
+            place.name
+          }"/>
                 <p>${place.name} - ${place.location.address}</p>
               </a>
             </div>
-          `
+          `,
         },
         geometry: {
           type: 'Point',
@@ -58,12 +60,20 @@ function makeMap(mapDiv) {
 
   loadPlaces(map)
 
-  map.addControl(
-    new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-    })
-  )
+  let geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+  })
+
+  geocoder.on('result', e => {
+    loadPlaces(
+      map,
+      e.result.geometry.coordinates[0],
+      e.result.geometry.coordinates[1]
+    )
+  })
+
+  map.addControl(geocoder)
 
   map.on('load', function() {
     let popup = new mapboxgl.Popup({
