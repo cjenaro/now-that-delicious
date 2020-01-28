@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { $ } from './bling'
 
 function loadPlaces(map, lat = 43.2, lng = -79.8) {
   axios.get(`/api/stores/near?lat=${lat}&lng=${lng}`).then(res => {
@@ -46,7 +47,7 @@ function loadPlaces(map, lat = 43.2, lng = -79.8) {
 }
 
 function makeMap(mapDiv) {
-  if (!mapDiv) return
+  if (!($(mapDiv))) return
 
   const MAPBOX_KEY =
     'pk.eyJ1IjoiamVuYXJvOTQiLCJhIjoiY2pzbnBpajh3MGV5MTQ0cnJ3dmJlczFqbiJ9.Aktxa1EqTzpy7yEaBDM1xQ'
