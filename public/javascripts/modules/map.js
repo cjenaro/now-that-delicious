@@ -29,6 +29,10 @@ function loadPlaces(map, lat = 43.2, lng = -79.8) {
       }
     })
 
+    if (map.getLayer('markers')) {
+      map.removeLayer('markers')
+    }
+
     map.addLayer({
       id: 'markers',
       type: 'symbol',
@@ -47,7 +51,7 @@ function loadPlaces(map, lat = 43.2, lng = -79.8) {
 }
 
 function makeMap(mapDiv) {
-  if (!($(mapDiv))) return
+  if (!$(`#${mapDiv}`)) return
 
   const MAPBOX_KEY =
     'pk.eyJ1IjoiamVuYXJvOTQiLCJhIjoiY2pzbnBpajh3MGV5MTQ0cnJ3dmJlczFqbiJ9.Aktxa1EqTzpy7yEaBDM1xQ'

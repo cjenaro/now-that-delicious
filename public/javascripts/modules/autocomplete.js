@@ -15,8 +15,8 @@ function autocomplete(input, latInput, lngInput) {
   geocoder.addTo('#search-address')
   geocoder.on('result', e => {
     input.value = e.result.place_name
-    latInput.value = e.result.geometry.coordinates[0]
-    lngInput.value = e.result.geometry.coordinates[1]
+    lngInput.value = e.result.geometry.coordinates[0]
+    latInput.value = e.result.geometry.coordinates[1]
   })
 
   document.querySelector('#search-address>div').style =
