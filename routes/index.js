@@ -5,16 +5,12 @@ const userController = require('../controllers/userController')
 const authController = require('../controllers/authController')
 const reviewController = require('../controllers/reviewController')
 const { catchErrors } = require('../handlers/errorHandlers')
-const {
-  check,
-  validationResult,
-  buildSanitizeFunction,
-} = require('express-validator')
-const sanitizeBodyAndQuery = buildSanitizeFunction(['body', 'query'])
+const { check } = require('express-validator')
 
 // Do work here
 router.get('/', storeController.getStores)
 router.get('/stores', catchErrors(storeController.getStores))
+router.get('/stores/page/:page', catchErrors(storeController.getStores))
 
 router.get('/add', authController.isLoggedIn, storeController.addStore)
 router.post(
@@ -88,16 +84,24 @@ router.post(
 )
 
 router.get('/map', storeController.mapPage)
-router.get('/hearts', authController.isLoggedIn, catchErrors(storeController.getHearts))
-router.post('/reviews/:id', authController.isLoggedIn, catchErrors(reviewController.addReview))
+router.get(
+  '/hearts',
+  authController.isLoggedIn,
+  catchErrors(storeController.getHearts)
+)
+router.post(
+  '/reviews/:id',
+  authController.isLoggedIn,
+  catchErrors(reviewController.addReview)
+)
 router.get('/top', catchErrors(storeController.getTopStores))
 
 /**
  * API
  */
 
- router.get('/api/search', catchErrors(storeController.searchStores))
- router.get('/api/stores/near', catchErrors(storeController.mapStores))
- router.post('/api/stores/:id/heart', catchErrors(storeController.heartStore))
+router.get('/api/search', catchErrors(storeController.searchStores))
+router.get('/api/stores/near', catchErrors(storeController.mapStores))
+router.post('/api/stores/:id/heart', catchErrors(storeController.heartStore))
 
 module.exports = router
