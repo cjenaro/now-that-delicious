@@ -1,3 +1,8 @@
+# Now That Delicious
+
+This is a course made by Wes Bos. I bumped up all of the packages versions and changed from Google Maps to Mapbox.
+Here's the running project: https://now-that-delicious-jenaro.herokuapp.com/  (It is beign hosted on a free heroku site so initial load make take some time)
+
 ## What is this?
 
 Just you wait folks!
